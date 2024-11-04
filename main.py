@@ -122,3 +122,57 @@ def votos_titulo( titulo_de_la_filmación ):
     cantidad_votos = pelicula["vote_count"].iloc[0]
 
     return f" La película {pelicula_nombre} fue estrenada en el año {año_estreno}. La misma cuenta con un total de {cantidad_votos} valoraciones, con un promedio de {score}"
+
+
+@app.get("/get_actor/{nombre_actor}")
+
+def get_actor( nombre_actor ):
+    '''
+    Presenta el número de películas en las que ha participado un actor y el promedio de retorno
+    argumentos:
+    nombre_actor: Nombre de un actor
+    Devuelve
+    Nombre del actor, número de peliculas en las que ha participado, el retorno total y el retorno promedio por filmación
+    '''
+
+    #Ir al archivo de peliculas para obtener la información de las películas
+
+    movies = pd.read_csv(r"C:\Users\SARAY\Documents\Cursos Cortos\Henry\Laboratorios Individual\Laboratorio 1\Solucion Laboratorio 1\Datasets\movies.csv")
+
+    # Ir al archivo crew para obtener los actores
+    crew = pd.read_csv(r"C:\Users\SARAY\Documents\Cursos Cortos\Henry\Laboratorios Individual\Laboratorio 1\Solucion Laboratorio 1\Datasets\crew.csv")
+
+    #Filtrar por los actores
+
+    crew_actor = crew[crew["job"] == "Actor"]
+
+    #Filtrar por los directores
+
+    crew_director = crew[crew["job"] == "Director"]
+
+    # Colocar el nombre del actor en minusculas para facilitar la busqueda
+
+    nombre_actor = nombre_actor.lower()
+
+    #Filtramos el archivo de actores por el nombre del actor
+    part_actor = crew_actor[crew_actor["name"].str.lower() == nombre_actor]
+
+    #Si no se encuentra el actor devuelve el mensaje:
+
+    if part_actor.empty:
+        return"El actor no existe"
+    
+    #Si el actor también es director, no se tiene en cuenta en la consulta, por lo que no se despliega información
+
+    elif nombre_actor in crew_director["name"].str.lower().values:
+        return "El actor también es director por lo que no se presentará su información"
+    
+
+    #Se unifica con movies para obtener el return total y promedio
+    part_actor = pd.merge(part_actor, movies[["id","return"]], left_on="id_film", right_on="id", how="left")
+
+    total_peliculas = part_actor["id_film"].nunique()
+    retorno_total = part_actor["return"].sum()
+    retorno_promedio = part_actor["return"].mean()
+
+    return f"El actor {nombre_actor} ha participado de {total_peliculas} cantidad de filmaciones, el mismo ha conseguido un retorno de {retorno_total} con un promedio de {retorno_promedio} por filmación"
