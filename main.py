@@ -2,12 +2,8 @@ from fastapi import FastAPI, HTTPException
 import pandas as pd
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
-import locale
 
 app = FastAPI()
-
-# Establecer el idioma local a español para hacer las consultas en español
-locale.setlocale(locale.LC_TIME, 'es_ES')
 
 @app.get("/cantidad_filmaciones_mes/{Mes}")
 
