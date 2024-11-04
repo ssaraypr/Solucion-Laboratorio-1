@@ -178,7 +178,9 @@ def get_actor( nombre_actor ):
 
     return f"El actor {nombre_actor} ha participado de {total_peliculas} cantidad de filmaciones, el mismo ha conseguido un retorno de {retorno_total} con un promedio de {retorno_promedio} por filmación"
 
-def get_director( nombre_director ):
+@app.get("/get_director/{nombre_director}")
+
+def get_director_info( nombre_director ):
     '''
     Presenta el nombre del director, su retorno
     Una lista de sus películas drigidas con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma
@@ -214,16 +216,7 @@ def get_director( nombre_director ):
 
     crew_dir_buscado = crew_dir_buscado[["title", "release_year", "return", "budget", "revenue"]]
     retorno_total = crew_dir_buscado["return"].sum()
-    
 
-
-    return (f"{nombre_director} ha tenido un retorno total de {retorno_total}", crew_dir_buscado)
-
-@app.get("/get_director/{nombre_director}")
-
-async def get_director_info(nombre_director: str):
-    mensaje, peliculas = get_director(nombre_director)
-    return {
-        "mensaje": mensaje,
-        "peliculas": jsonable_encoder(peliculas)
-    }
+    resultado = {"El director": nombre_director, "ha tenido un retorno total de": retorno_total, 
+                 "estas son sus películas": crew_dir_buscado.reset_index().to_dict(orient="records")}
+    return JSONResponse(content=jsonable_encoder(resultado), media_type="application/json")
