@@ -81,7 +81,7 @@ def score_titulo(titulo_de_la_filmación: str):
     if pelicula.empty:
         return f"Película no encontrada"
 
-     #Acceder al primer elemento para convertir los valores en cadenas de texto y construir el mensaje de salida
+    #Acceder al primer elemento para convertir los valores en cadenas de texto y construir el mensaje de salida
     pelicula_nombre = pelicula["title"].iloc[0]
     año_estreno = pelicula["release_year"].iloc[0]
     score = pelicula["vote_average"].iloc[0]
