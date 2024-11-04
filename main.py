@@ -178,8 +178,6 @@ def get_actor( nombre_actor ):
 
     return f"El actor {nombre_actor} ha participado de {total_peliculas} cantidad de filmaciones, el mismo ha conseguido un retorno de {retorno_total} con un promedio de {retorno_promedio} por filmación"
 
-@app.get("/get_director/{nombre_director}")
-
 def get_director( nombre_director ):
     '''
     Presenta el nombre del director, su retorno
@@ -220,3 +218,12 @@ def get_director( nombre_director ):
 
 
     return (f"{nombre_director} ha tenido un retorno total de {retorno_total}", crew_dir_buscado)
+
+@app.get("/get_director/{nombre_director}")
+
+async def get_director_info(nombre_director: str):
+    mensaje, peliculas = get_director(nombre_director)
+    return {
+        "mensaje": mensaje,
+        "peliculas": jsonable_encoder(peliculas)
+    }
