@@ -9,9 +9,10 @@ app = FastAPI()
 # Establecer el idioma local a español para hacer las consultas en español
 locale.setlocale(locale.LC_TIME, 'es_ES')
 
-@app.get("/")
+@app.get("/cantidad_filmaciones_mes/{Mes}")
+
 #Función para devolver la cantidad de películas que fueron estrenadas en el mes 
-def cantidad_filmaciones_mes( Mes ):
+def cantidad_filmaciones_mes( Mes: str ):
     '''
     Cuenta la cantidad de peliculas estrenadas en un mes especifico
     argumentos:
@@ -32,4 +33,4 @@ def cantidad_filmaciones_mes( Mes ):
     #Obtener la cantidad de peliculas en el mes
     movies_pormes = movies[movies["mes_estreno"] == Mes.lower()].shape[0]
 
-    return print(movies_pormes, "cantidad de películas fueron estrenadas en el mes de", Mes)
+    return f"{movies_pormes} cantidad de películas fueron estrenadas en el mes de {Mes}"
