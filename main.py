@@ -137,14 +137,14 @@ def get_actor( nombre_actor ):
 
     #Ir al archivo de peliculas para obtener la información de las películas
 
-    movies = pd.read_csv(r"C:\Users\SARAY\Documents\Cursos Cortos\Henry\Laboratorios Individual\Laboratorio 1\Solucion Laboratorio 1\Datasets\movies.csv")
+    movies = pd.read_csv("Datasets/movies.csv")
 
     # Ir al archivo cast para obtener los actores
-    cast = pd.read_csv(r"C:\Users\SARAY\Documents\Cursos Cortos\Henry\Laboratorios Individual\Laboratorio 1\Solucion Laboratorio 1\Datasets\cast.csv")
+    cast = pd.read_csv("Datasets/cast.csv")
 
     #Ir al archivo crew para obtener los directores
 
-    crew = pd.read_csv(r"C:\Users\SARAY\Documents\Cursos Cortos\Henry\Laboratorios Individual\Laboratorio 1\Solucion Laboratorio 1\Datasets\crew.csv")
+    crew = pd.read_csv("Datasets/crew.csv")
 
     #Filtrar por los directores
 
