@@ -137,14 +137,14 @@ def get_actor( nombre_actor ):
 
     #Ir al archivo de peliculas para obtener la información de las películas
 
-    movies = pd.read_csv("Datasets/movies.csv")
+    movies = pd.read_csv(r"C:\Users\SARAY\Documents\Cursos Cortos\Henry\Laboratorios Individual\Laboratorio 1\Solucion Laboratorio 1\Datasets\movies.csv")
 
-    # Ir al archivo crew para obtener los actores
-    crew = pd.read_csv("Datasets/crew.csv")
+    # Ir al archivo cast para obtener los actores
+    cast = pd.read_csv(r"C:\Users\SARAY\Documents\Cursos Cortos\Henry\Laboratorios Individual\Laboratorio 1\Solucion Laboratorio 1\Datasets\cast.csv")
 
-    #Filtrar por los actores
+    #Ir al archivo crew para obtener los directores
 
-    crew_actor = crew[crew["job"] == "Actor"]
+    crew = pd.read_csv(r"C:\Users\SARAY\Documents\Cursos Cortos\Henry\Laboratorios Individual\Laboratorio 1\Solucion Laboratorio 1\Datasets\crew.csv")
 
     #Filtrar por los directores
 
@@ -155,14 +155,14 @@ def get_actor( nombre_actor ):
     nombre_actor = nombre_actor.lower()
 
     #Filtramos el archivo de actores por el nombre del actor
-    part_actor = crew_actor[crew_actor["name"].str.lower() == nombre_actor]
+    part_actor = cast[cast["name"].str.lower() == nombre_actor]
 
     #Si no se encuentra el actor devuelve el mensaje:
 
     if part_actor.empty:
         return"El actor no existe"
     
-    #Si el actor también es director, no se tiene en cuenta en la consulta, por lo que no se despliega información
+    #Si el actor también es director, no se tiene en cuenta en la consulta, por lo que no se despliega el siguiente mensaje:
 
     elif nombre_actor in crew_director["name"].str.lower().values:
         return "El actor también es director por lo que no se presentará su información"
