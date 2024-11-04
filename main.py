@@ -180,7 +180,7 @@ def get_actor( nombre_actor ):
 
 @app.get("/get_director/{nombre_director}")
 
-def get_director_info( nombre_director ):
+def get_director( nombre_director ):
     '''
     Presenta el nombre del director, su retorno
     Una lista de sus películas drigidas con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma
