@@ -129,6 +129,7 @@ def votos_titulo( titulo_de_la_filmación ):
 def get_actor( nombre_actor ):
     '''
     Presenta el número de películas en las que ha participado un actor y el promedio de retorno
+    Si el actor también es un director, no presenta su información
     argumentos:
     nombre_actor: Nombre de un actor
     Devuelve
@@ -176,3 +177,46 @@ def get_actor( nombre_actor ):
     retorno_promedio = part_actor["return"].mean()
 
     return f"El actor {nombre_actor} ha participado de {total_peliculas} cantidad de filmaciones, el mismo ha conseguido un retorno de {retorno_total} con un promedio de {retorno_promedio} por filmación"
+
+@app.get("/get_director/{nombre_director}")
+
+def get_director( nombre_director ):
+    '''
+    Presenta el nombre del director, su retorno
+    Una lista de sus películas drigidas con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma
+    argumentos:
+    nombre_director: El nombre del director
+    Devuelve:
+    Nombre del director y su retorno total
+    dict: Nombre película, fecha de lanzamiento, retorno individual, costo y ganancia
+    '''
+    #Ir al archivo de peliculas para obtener la información de las películas
+
+    movies = pd.read_csv("Datasets/movies.csv")
+
+    #Ir al archivo crew para obtener los directores
+
+    crew = pd.read_csv("Datasets/crew.csv")
+
+    #Filtrar por los directores
+    crew_director = crew[crew["job"] == "Director"]
+
+    #Convertir nombre de director a minusculas para facilitar la búsqueda
+    nombre_director = nombre_director.lower()
+
+    #Filtrar por el nombre del director
+    crew_dir_buscado = crew_director[crew_director["name"].str.lower() == nombre_director]
+
+    #Si no se encuentra el director, devuelve el siguiente mensaje:
+    if crew_dir_buscado.empty:
+        return "El director no existe"
+    
+    #Se obtiene la información sobre la pelícual: titulo, año estreno, retorno, presupuesto, ganancias:
+    crew_dir_buscado = pd.merge(crew_dir_buscado, movies[["id", "title", "release_year", "return", "budget", "revenue"]] , left_on="id_film" , right_on="id", how="left")
+
+    crew_dir_buscado = crew_dir_buscado[["title", "release_year", "return", "budget", "revenue"]]
+    retorno_total = crew_dir_buscado["return"].sum()
+    
+
+
+    return (f"{nombre_director} ha tenido un retorno total de {retorno_total}", crew_dir_buscado)
