@@ -21,7 +21,7 @@ def cantidad_filmaciones_mes( Mes: str ):
     El número de películas estrenadas en el mes indicado
     '''
     # Ir al archivo de movies para obtener las películas
-    movies = pd.read_csv(r"C:\Users\SARAY\Documents\Cursos Cortos\Henry\Laboratorios Individual\Laboratorio 1\Solucion Laboratorio 1\Datasets\movies.csv")
+    movies = pd.read_csv("Datasets/movies.csv")
     # Se Convierte la columna de release_date
     movies["release_date"] = pd.to_datetime(movies["release_date"])
     #Incluir una columna con el nombre del mes en español
