@@ -88,3 +88,37 @@ def score_titulo(titulo_de_la_filmación: str):
 
       
     return f"La película {pelicula_nombre} fue estrenada en el año {año_estreno} con un score/popularidad de {score}"
+
+@app.get("/votos_titulo/{Titulo}")
+
+def votos_titulo( titulo_de_la_filmación ):
+    '''
+    Presenta el título de la película, el año de estreno, la cantidad de votos y el score
+    para películas que tuvieron una cantidad mayor de 2000 valoraciones
+    argumento
+    titulo_de_la_filmación : Título de una filmación
+    Devuelve
+    Titulo de la filmación, año de estreno, cantidad de votos y promedio de votos
+    '''
+    #Ir al archivo movies para obtener las películas
+    movies = pd.read_csv("Datasets/movies.csv")
+
+    #Colocar todo lo escrito en el titulo en minusculas para facilitar busqueda
+    titulo_de_la_filmación = titulo_de_la_filmación.lower()
+
+    #Filtrar las peliculas por el título
+    pelicula = movies[movies["title"].str.lower() == titulo_de_la_filmación]
+    #Si no se encuentra la película (porque busqueda fue vacía), retornar mensaje:
+    if pelicula.empty:
+        return f"Película no encontrada"
+    
+    elif pelicula["vote_count"].iloc[0] < 2000:
+        return f"La película no tiene al menos 2000 valoraciones para ser presentada"
+    
+    #Acceder al primer elemento para convertir los valores en cadenas de texto y construir el mensaje de salida
+    pelicula_nombre = pelicula["title"].iloc[0]
+    año_estreno = pelicula["release_year"].iloc[0]
+    score = pelicula["vote_average"].iloc[0]
+    cantidad_votos = pelicula["vote_count"].iloc[0]
+
+    return f" La película {pelicula_nombre} fue estrenada en el año {año_estreno}. La misma cuenta con un total de {cantidad_votos} valoraciones, con un promedio de {score}"
