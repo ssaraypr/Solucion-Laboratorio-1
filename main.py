@@ -58,3 +58,32 @@ def cantidad_filmaciones_dia (Dia : str):
 
     return f"{movies_pordia} cantidad de películas fueron estrenadas en los días {Dia}"
 
+@app.get("/score_titulo/{Titulo}")
+
+def score_titulo(titulo_de_la_filmación: str):
+    '''
+    Presenta el titulo de una película, su año de estreno y el score
+    argumentos:
+    titulo_de_la_filmación : Título de una filmación
+    Devuelve: 
+    El título de la película, el año de estreno y el score
+    '''
+    #Ir al archivo movies para obtener las películas
+    movies = pd.read_csv("Datasets/movies.csv")
+
+    #Colocar todo lo escrito en el titulo en minusculas para facilitar busqueda
+    titulo_de_la_filmación = titulo_de_la_filmación.lower()
+
+    #Filtrar las peliculas por el título
+    pelicula = movies[movies["title"].str.lower() == titulo_de_la_filmación]
+    
+     #Acceder al primer elemento para convertir los valores en cadenas de texto y construir el mensaje de salida
+    pelicula_nombre = pelicula["title"].iloc[0]
+    año_estreno = pelicula["release_year"].iloc[0]
+    score = pelicula["vote_average"].iloc[0]
+
+    #Si no se encuentra la película (porque busqueda fue vacía), retornar mensaje:
+    if pelicula.empty:
+        return f"Película no encontrada"
+    
+    return f"La película {pelicula_nombre} fue estrenada en el año {año_estreno} con un score/popularidad de {score}"
