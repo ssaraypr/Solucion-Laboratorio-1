@@ -264,8 +264,7 @@ def recomendacion (Titulo: str):
         #Se obtiene la lista de las 5 películas más similares
         top_5 = movies.loc[peliculas_mas_sim[1:6], "title"]
 
-        resultado = {"Las 5 películas más similares a": Titulo, "son": top_5}
+        resultado = {"Las 5 películas más similares a": Titulo, "son": top_5.reset_index().to_dict(orient="records")}
         return JSONResponse(content=jsonable_encoder(resultado), media_type="application/json")
-
     else:
         return "Película No encontrada"
