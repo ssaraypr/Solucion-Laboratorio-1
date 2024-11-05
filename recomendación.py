@@ -40,15 +40,16 @@ def recomendacion (Titulo: str):
     Titulo = Titulo.lower().strip()
     pelicula = movies[movies["title"].str.lower() == Titulo]
 
-    if not pelicula.empty:
-        pelicula_index = pelicula.index[0]
-        peliculas_similares = similarity_matrix[pelicula_index]
-        peliculas_mas_sim = np.argsort(-peliculas_similares)
-
-        #Se obtiene la lista de las 5 películas más similares
-        top_5 = movies.loc[peliculas_mas_sim[1:6], "title"]
-
-        resultado = {"Las 5 películas más similares a": Titulo, "son": top_5.reset_index().to_dict(orient="records")}
-        return JSONResponse(content=jsonable_encoder(resultado), media_type="application/json")
-    else:
+    if pelicula.empty:
         return "Película No encontrada"
+    
+    #Buscar la película por el indice
+    pelicula_index = pelicula.index[0]
+    peliculas_similares = similarity_matrix[pelicula_index]
+    peliculas_mas_sim = np.argsort(-peliculas_similares)
+
+    #Se obtiene la lista de las 5 películas más similares
+    top_5 = movies.loc[peliculas_mas_sim[1:6], "title"]
+
+    resultado = {"Las 5 películas más similares a": Titulo, "son": top_5.reset_index().to_dict(orient="records")}
+    return JSONResponse(content=jsonable_encoder(resultado), media_type="application/json")
