@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 import pandas as pd
-import numpy as pd
+import numpy as np
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from sklearn.feature_extraction.text import TfidfVectorizer
