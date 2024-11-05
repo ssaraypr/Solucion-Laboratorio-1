@@ -230,7 +230,7 @@ def recomendacion (Titulo: str):
     '''
     '''
     #Acceder al archivo de Movies
-    movies = pd.read_csv(r"C:\Users\SARAY\Documents\Cursos Cortos\Henry\Laboratorios Individual\Laboratorio 1\Solucion Laboratorio 1\Datasets\movies_recomendación.csv")
+    movies = pd.read_csv("Datasets/movies_recomendación.csv")
           
     #Verificar que las columnas Title/genre_1_name/original_language sean tipo string
     movies["title"] = movies["title"].astype("string")
