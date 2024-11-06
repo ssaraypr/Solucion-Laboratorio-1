@@ -272,7 +272,7 @@ async def recomendacion (Titulo: str):
     '''
     '''
     try:
-        movies = pd.read_csv(r"C:\Users\SARAY\Documents\Cursos Cortos\Henry\Laboratorios Individual\Laboratorio 1\Solucion Laboratorio 1\Datasets\movies_recomendación.csv")
+        movies = pd.read_csv("Datasets/movies_recomendación.csv")
 
 
         #Aplicar función
