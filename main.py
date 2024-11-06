@@ -224,7 +224,7 @@ def get_director( nombre_director ):
                  "estas son sus películas": crew_dir_buscado.reset_index().to_dict(orient="records")}
     return JSONResponse(content=jsonable_encoder(resultado), media_type="application/json")
 
-def obtener_recomendacion (dataset, Titulo):
+def obtener_recomendacion (dataset, Titulo:str):
     '''
     '''
             
